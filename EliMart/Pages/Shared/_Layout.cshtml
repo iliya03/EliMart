@@ -1,132 +1,201 @@
-﻿<!DOCTYPE html>
+﻿@{
+	var currentPath = Context.Request.Path.Value?.ToLower();
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - EliMart</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/EliMart.styles.css" asp-append-version="true" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - EliMart</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/EliMart.styles.css" asp-append-version="true" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="..." crossorigin="anonymous">
+
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm mb-3">
-          
-            <div class="container-fluid">
-                <a class="navbar-brand fw-bold" asp-area="" asp-page="/Index">EliMart</a>
+	<header>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm mb-3">
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+			<div class="container-fluid">
+				<a class="navbar-brand fw-bold" asp-area="" asp-page="/Index">EliMart</a>
 
-                <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/Shop">Shop</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/Cart">Cart </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/Orders">Orders</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/Contact">Contact Us</a>
-                        </li>
-                    </ul>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+						data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+						aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
 
-                    <ul class="navbar-nav mb-2 mb-lg-0">
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
-                                   role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    @User.Identity.Name
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" asp-page="/Account/Profile">Profile</a></li>
-                                    <li><a class="dropdown-item" asp-page="/Account/Settings">Settings</a></li>
-                                    <li><hr class="dropdown-divider" /></li>
-                                    <li>
-                                        <form method="post" asp-page="/Account/Logout">
-                                            <button class="dropdown-item">Logout</button>
-                                        </form>
-                                    </li>
-                                </ul>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-page="/Account/Login">Login</a>
-                            </li>
-                        }
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-            <!-- Indicators -->
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
-                        aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                        aria-label="Slide 2"></button>
-            </div>
+				<div class="collapse navbar-collapse" id="navbarNavDropdown">
+					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+						<li class="nav-item">
+							<a class="nav-link" asp-page="/Index">Home</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" asp-page="/Shop">Shop</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" asp-page="/Cart">Cart </a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" asp-page="/Orders">Orders</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" asp-page="/Contact">Contact Us</a>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								Categories
+							</a>
+							<ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
+								<li><a class="dropdown-item" asp-page="/Categories/Electronics">Electronics</a></li>
+								<li><a class="dropdown-item" asp-page="/Categories/Fashion">Fashion</a></li>
+								<li><a class="dropdown-item" asp-page="/Categories/HomeLiving">Home & Living</a></li>
+								<li><a class="dropdown-item" asp-page="/Categories/Accessories">Accessories</a></li>
+							</ul>
+						</li>
 
-            <!-- Slides -->
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="https://placehold.co/1200x400?text=Welcome+to+EliMart" class="d-block w-100" alt="Welcome">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Exclusive Offers</h5>
-                        <p>Get the best deals on clothing and more!</p>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <img src="https://placehold.co/1200x400?text=Shop+Now+With+Confidence" class="d-block w-100" alt="Shop Now">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Quality Assured</h5>
-                        <p>Shop with peace of mind and top service.</p>
-                    </div>
-                </div>
-            </div>
+					</ul>
 
-            <!-- Controls -->
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
+					<ul class="navbar-nav mb-2 mb-lg-0">
+						@if (User.Identity.IsAuthenticated)
+						{
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+								   role="button" data-bs-toggle="dropdown" aria-expanded="false">
+									@User.Identity.Name
+								</a>
+								<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+									<li><a class="dropdown-item" asp-page="/Account/Profile">Profile</a></li>
+									<li><a class="dropdown-item" asp-page="/Account/Settings">Settings</a></li>
+									<li><hr class="dropdown-divider" /></li>
+									<li>
+										<form method="post" asp-page="/Account/Logout">
+											<button class="dropdown-item">Logout</button>
+										</form>
+									</li>
+								</ul>
+							</li>
+						}
+						else
+						{
+							<li class="nav-item">
+								<a href="/Login">Login</a>
+							</li>
+						}
+					</ul>
+				</div>
+			</div>
+		</nav>
+		@if (!currentPath.Contains("/login"))
+		{
+			<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+				<!-- Indicators -->
+				<div class="carousel-indicators">
+					<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+							aria-current="true" aria-label="Slide 1"></button>
+					<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+							aria-label="Slide 2"></button>
+				</div>
 
-    </header>
+				<!-- Slides -->
+				<div class="carousel-inner">
+					<div class="carousel-item active">
+						<img src="https://placehold.co/1200x400?text=Welcome+to+EliMart" class="d-block w-100" alt="Welcome">
+						<div class="carousel-caption d-none d-md-block">
+							<h5>Exclusive Offers</h5>
+							<p>Get the best deals on clothing and more!</p>
+						</div>
+					</div>
+					<div class="carousel-item">
+						<img src="https://placehold.co/1200x400?text=Shop+Now+With+Confidence" class="d-block w-100" alt="Shop Now">
+						<div class="carousel-caption d-none d-md-block">
+							<h5>Quality Assured</h5>
+							<p>Shop with peace of mind and top service.</p>
+						</div>
+					</div>
+				</div>
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+				<!-- Controls -->
+				<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Previous</span>
+				</button>
+				<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Next</span>
+				</button>
+			</div>
+		}
+	</header>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - EliMart - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
-    </footer>
+	<div class="container">
+		<main role="main" class="pb-3">
+			@RenderBody()
+		</main>
+	</div>
 
-    @* javascript dependencies *@
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+	<footer class="bg-light text-dark pt-5 pb-4 border-top mt-5">
+		<div class="container text-md-left">
+			<div class="row text-md-left">
 
-    @await RenderSectionAsync("Scripts", required: false)
+				<!-- Brand Section -->
+				<div class="col-md-4 col-lg-4 col-xl-4 mx-auto mt-3">
+					<h4 class="mb-4 fw-bold text-danger">EliMart</h4>
+					<p>
+						EliMart is your trusted destination for quality fashion, electronics, and more.
+						Our platform connects local and global brands, bringing you the best deals with a commitment to customer satisfaction.
+					</p>
+					<div>
+						<a href="#" class="me-3 text-danger fs-4"><i class="fab fa-facebook-f"></i></a>
+						<a href="#" class="me-3 text-danger fs-4"><i class="fab fa-instagram"></i></a>
+						<a href="#" class="text-danger fs-4"><i class="fab fa-tiktok"></i></a>
+					</div>
+				</div>
+
+				<!-- Categories -->
+				<div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+					<h6 class="mb-4 fw-bold text-danger">Categories</h6>
+					<p><a href="#" class="text-reset text-decoration-none">Fashion</a></p>
+					<p><a href="#" class="text-reset text-decoration-none">Electronics</a></p>
+					<p><a href="#" class="text-reset text-decoration-none">Home & Living</a></p>
+					<p><a href="#" class="text-reset text-decoration-none">Accessories</a></p>
+				</div>
+
+				<!-- Help & Support -->
+				<div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+					<h6 class="mb-4 fw-bold text-danger">Help & Support</h6>
+					<p><a href="#" class="text-reset text-decoration-none">Contact Us</a></p>
+					<p><a href="#" class="text-reset text-decoration-none">FAQ</a></p>
+					<p><a href="#" class="text-reset text-decoration-none">Shipping & Delivery</a></p>
+					<p><a href="#" class="text-reset text-decoration-none">Returns</a></p>
+				</div>
+
+				<!-- Useful Links -->
+				<div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+					<h6 class="mb-4 fw-bold text-danger">Useful Links</h6>
+					<p><a href="#" class="text-reset text-decoration-none">About Us</a></p>
+					<p><a href="#" class="text-reset text-decoration-none">Reviews</a></p>
+					<p><a href="#" class="text-reset text-decoration-none">Terms & Conditions</a></p>
+					<p><a href="#" class="text-reset text-decoration-none">Privacy Policy</a></p>
+				</div>
+			</div>
+
+			<!-- Bottom line -->
+			<div class="row mt-4">
+				<div class="col text-center">
+					<p class="text-muted">&copy; 2025 EliMart. All Rights Reserved</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+
+	@* javascript dependencies *@
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+
+	@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

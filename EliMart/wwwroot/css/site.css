@@ -20,3 +20,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.btn-danger:hover {
+    background-color: #e8590c;
+    color: white;
+}
